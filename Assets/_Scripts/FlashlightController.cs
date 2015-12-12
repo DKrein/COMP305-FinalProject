@@ -4,13 +4,15 @@ using System.Collections;
 public class FlashlightController : MonoBehaviour {
 
 	public float duration = 0.05F;
-	public Light lt;
+	private Light lt;
+	private AudioSource audios;
 
 	private bool failure = false;
 
 	// Use this for initialization
 	void Start () {
 		lt = GetComponent<Light>();
+		audios = GetComponent<AudioSource>();
 		StartCoroutine( RandomBehavior ());
 	}
 	
@@ -26,10 +28,11 @@ public class FlashlightController : MonoBehaviour {
 	IEnumerator RandomBehavior(){
 		
 		while(true){
-
+			audios.Play();
 			failure = true;
 			yield return new WaitForSeconds(UnityEngine.Random.Range (2,4));
 			failure = false;
+			audios.Stop();
 			lt.intensity = 0;
 			yield return new WaitForSeconds(UnityEngine.Random.Range (5,7));
 			lt.intensity = 3;

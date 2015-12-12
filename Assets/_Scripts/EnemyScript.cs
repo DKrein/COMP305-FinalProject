@@ -10,6 +10,7 @@ public class EnemyScript : MonoBehaviour
 	public float speed; //Enemy Speed
 	private GameObject objPlayer;
 	private NavMeshAgent agent;
+
 	
 	protected void Initialize()
 	{
@@ -22,11 +23,22 @@ public class EnemyScript : MonoBehaviour
 	{
 		Initialize();
 	}
-	
+
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		agent.SetDestination (objPlayer.transform.position);
+
+		if (Vector3.Dot(objPlayer.transform.forward, (transform.position - objPlayer.transform.position).normalized) < .65f) {
+			if (!GetComponent<AudioSource>().isPlaying) 
+				GetComponent<AudioSource>().Play();
+
+			agent.enabled = true;
+			agent.SetDestination (objPlayer.transform.position);
+		} else {	
+			GetComponent<AudioSource>().Stop();
+			agent.enabled = false;
+		}
+	
 	}
 		
 }
