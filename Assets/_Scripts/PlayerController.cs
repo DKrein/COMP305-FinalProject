@@ -21,8 +21,13 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.transform.tag == "Goal") { gameController.changeLevel(); }
-		if (other.transform.tag == "Enemy") { gameController.die(); }
+		if (other.transform.tag == "Goal") { 
+			gameController.changeLevel(); 
+		}
+
+		if (other.transform.tag == "Enemy") { 
+			gameController.die(); 
+		}
 
 		if (other.transform.tag == "Key")
 		{	

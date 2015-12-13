@@ -65,10 +65,23 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void changeLevel() {
-		currentLevel++;
-		PlayerPrefs.SetInt("Level",currentLevel);
-		PlayerPrefs.SetInt("Deaths",deathCounter);
-		Application.LoadLevel(currentLevel);
+		Debug.Log ("change level");
+
+		if (keysLeft == 0) {
+			currentLevel++;
+			Debug.Log ("Change level goto" + currentLevel);
+			PlayerPrefs.SetInt ("Level", currentLevel);
+			PlayerPrefs.SetInt ("Deaths", deathCounter);
+			Application.LoadLevel (currentLevel);
+		} else {
+			Debug.Log ("dok");
+			StartCoroutine( ShowCenterMsg ());
+		}
 	}
 
+	IEnumerator ShowCenterMsg(){
+		centerMsgText.text = "You left "+keysLeft+" keys.";
+		yield return new WaitForSeconds(2f);
+		centerMsgText.text = "";
+	}
 }
