@@ -35,7 +35,7 @@ public class FlashlightController : MonoBehaviour {
 			audios.Stop();
 			lt.intensity = 0;
 			yield return new WaitForSeconds(UnityEngine.Random.Range (5,7));
-			lt.intensity = 3;
+			lt.intensity = 4;
 			yield return new WaitForSeconds(UnityEngine.Random.Range (30,40));
 		}	
 	}
