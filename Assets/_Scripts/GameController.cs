@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
 	public Text deathText;
 	public Text keysText;
 	public Text centerMsgText;
+	public Text timerText; 
 	public Transform spawnPoint;
 
 	private int keysLeft = 5;
@@ -16,12 +17,15 @@ public class GameController : MonoBehaviour {
 	private GameObject player;
 	private int currentLevel;
 
+	private float timer;
+	private string timerFormatted;
 
 	// Use this for initialization
 	void Start () {
 
 		currentLevel = PlayerPrefs.GetInt("Level");
 		deathCounter = PlayerPrefs.GetInt("Deaths");
+		timer = PlayerPrefs.GetFloat("Timer");
 
 		dead = false;
 		centerMsgText.text = "";
@@ -42,6 +46,15 @@ public class GameController : MonoBehaviour {
 				player.GetComponent<CharacterController>().enabled = true;
 			}
 		}
+
+		timer += Time.deltaTime;
+
+		int minutes = Mathf.FloorToInt(timer / 60F);
+		int seconds = Mathf.FloorToInt(timer - minutes * 60);
+		string niceTime = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+		timerText.text = niceTime;
+
 	}
 
 	public void pickKey() {
@@ -67,11 +80,12 @@ public class GameController : MonoBehaviour {
 	public void changeLevel() {
 		Debug.Log ("change level");
 
-		if (keysLeft == 0) {
+		if (keysLeft >= 0) {
 			currentLevel++;
 			Debug.Log ("Change level goto" + currentLevel);
 			PlayerPrefs.SetInt ("Level", currentLevel);
 			PlayerPrefs.SetInt ("Deaths", deathCounter);
+			PlayerPrefs.SetFloat ("Timer", timer);
 			Application.LoadLevel (currentLevel);
 		} else {
 			Debug.Log ("dok");
